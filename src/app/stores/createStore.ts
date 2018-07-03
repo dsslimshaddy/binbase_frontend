@@ -1,14 +1,21 @@
 import { History } from 'history';
-import { TodoModel } from 'app/models';
-import { TodoStore } from './TodoStore';
 import { RouterStore } from './RouterStore';
-import { STORE_TODO, STORE_ROUTER } from 'app/constants';
+import { AppStore } from './AppStore';
+import { ErrorStore } from './ErrorStore';
+import { LangStore } from './LangStore';
+import { LoginStore } from './LoginStore';
 
-export function createStores(history: History, defaultTodos?: TodoModel[]) {
-  const todoStore = new TodoStore(defaultTodos);
+export function createStores(history: History) {
   const routerStore = new RouterStore(history);
+  const appStore = new AppStore();
+  const errorStore = new ErrorStore();
+  const langStore = new LangStore();
+  const loginStore = new LoginStore();
   return {
-    [STORE_TODO]: todoStore,
-    [STORE_ROUTER]: routerStore
+    routerStore,
+    appStore,
+    errorStore,
+    langStore,
+    loginStore,
   };
 }
