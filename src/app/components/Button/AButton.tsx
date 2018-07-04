@@ -103,7 +103,7 @@ class AButton extends React.Component<any, any>{
     let buttonText;
 
     if (isPending) {
-      buttonText = pendingText || <CircularProgress size={loadingSize || 14} />;
+      buttonText = pendingText || <CircularProgress color="secondary" size={loadingSize || 14} />;
     } else if (isFulfilled) {
       buttonText = fulFilledText;
     } else if (isRejected) {

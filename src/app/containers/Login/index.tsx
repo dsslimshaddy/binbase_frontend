@@ -25,7 +25,6 @@ interface TabContainerProps {
 }
 
 //import { SignupForm } from '../Signup';
-//import { Avatar } from 'shared';
 
 
 const styleSheet = (theme: Theme): StyleRules => ({
@@ -187,7 +186,7 @@ class Login extends React.Component<any, any>{
 
 
 
-@inject('errorStore','langStore','loginStore')
+@inject('errorStore','langStore','loginStore','xhrStore')
 @observer
 class LoginForm extends React.Component<any, any>{
 
@@ -215,7 +214,7 @@ class LoginForm extends React.Component<any, any>{
     return(
     <SwipeableViews index={index} onChangeIndex={this.handleChangeIndex} animateHeight={true}>
         <TabContainer>
-          <form>
+          {/*<form>*/}
             <TextField
               className={cx(styles.mar_20_0)}
               value={emailField}
@@ -226,14 +225,14 @@ class LoginForm extends React.Component<any, any>{
               <Link faded to="/forgot">Forgot Email?</Link>
             <AButton
               onClick={this.handleCheckEmail}
-              type="submit"
+              type="button"
               className={cx(styles.pad_20, styles.mar_20_0)}
               color="primary"
               fullWidth
               variant="contained" >
               {langStore.getW("next")}
             </AButton>
-          </form>
+          {/*</form>*/}
           <Div
             className={cx(styles.mar_20_0)}
             >
@@ -242,7 +241,7 @@ class LoginForm extends React.Component<any, any>{
           </Div>
         </TabContainer>
         <TabContainer>
-          <form>
+          {/*<form>*/}
             <TextField
               className={cx(styles.mar_20_0)}
               value={passwordField}
@@ -256,12 +255,12 @@ class LoginForm extends React.Component<any, any>{
               onClick={this.handleSignIn}
               className={cx(styles.pad_20,styles.mar_20_0)}
               color="primary"
-              type="submit"
+              type="button"
               variant="contained"
               fullWidth >
             {langStore.getW("sign_in")}
           </AButton>
-         </form>
+         {/*</form>*/}
           <Div>
             <Span className={cx(styles.hint)}>Missed Something? </Span>
             <Link onClick={()=>{ loginStore.setCurrentHit(null); this.handleChangeIndex(0); }} to="/#">Go back</Link>
@@ -285,7 +284,12 @@ class LoginForm extends React.Component<any, any>{
     });
     */
   }
-  handleCheckEmail = () => {
+  handleCheckEmail = async() => {
+      //await sleep(1);
+      return this.props.xhrStore.getU(this.props, `/check_email?email=${this.state.emailField}`,(res) => {
+        console.log(res);
+      });
+
     //const { errorStore, langStore, loginStore } = this.props;
     /*
     return queryGQL(this.props, EmailCheck, {

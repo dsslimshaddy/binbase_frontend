@@ -4,6 +4,7 @@ import { AppStore } from './AppStore';
 import { ErrorStore } from './ErrorStore';
 import { LangStore } from './LangStore';
 import { LoginStore } from './LoginStore';
+import { XhrStore } from './XhrStore';
 
 export function createStores(history: History) {
   const routerStore = new RouterStore(history);
@@ -11,11 +12,13 @@ export function createStores(history: History) {
   const errorStore = new ErrorStore();
   const langStore = new LangStore();
   const loginStore = new LoginStore();
+  const xhrStore = new XhrStore();
   return {
     routerStore,
     appStore,
     errorStore,
     langStore,
     loginStore,
+    xhrStore,
   };
 }
