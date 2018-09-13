@@ -11,14 +11,22 @@ const styleSheetExport = theme => ({
   },
   fs: {
     flex: "1 1 auto"
+  },
+  tcenter: {
+    "text-align": "center"
+  },
+  tr: {
+    "text-align": "right"
   }
 });
 
 const FaFlexbox = (props) => {
-  const {children, classes, className, fs,...other} = props;
+  const {children, classes, className, fa, fs, tr, tcenter,...other} = props;
   return(
     <Div
       className={cx(
+        {[classes.tcenter]: tcenter },
+        {[classes.tr]: tr },
         {[classes.fa]: (!fs) },
         {[classes.fs]: fs === true},
          className)}

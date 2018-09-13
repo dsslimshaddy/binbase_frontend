@@ -16,6 +16,14 @@ export const styleSheet = theme => ({
       borderColor: theme.palette.text.primary,
     },
   },
+  clearfix: {
+    borderBottom: `0px solid transparent`,
+    textDecoration: 'none',
+    outline: 'none',
+    '&:hover': {
+      borderColor: 'transparent',
+    },    
+  },
   faded: {
     transition: '.15s linear color',
     color: theme.palette.text.hint,
@@ -33,12 +41,14 @@ const LinkX = (props) => {
     classes,
     className,
     children,
+    clearfix,
     ...other
   } = props;
   return(
     <Link
        className = {cx(
-         classes.root,
+         { [classes.clearfix]: clearfix},
+         { [classes.root]: clearfix},
          { [classes.faded] : faded },
          className
        )}

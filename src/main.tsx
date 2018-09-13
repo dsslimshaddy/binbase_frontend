@@ -17,5 +17,5 @@ useStrict(true);
 ReactDOM.render(
     <App />
     ,
-  document.getElementById('root')
+  document.body
 );

@@ -27,12 +27,16 @@ const styleSheet = (theme: Theme): StyleRules => ({
   hcenter: {
     justifyContent: "center"
   },
+  "button": {
+    "user-select": "none"
+  },
 });
 interface FaDivFlexboxProps{
   children: any,
   c?: boolean,
   fa?: boolean,
   fs?: boolean,
+  button?: boolean,
 
   classes?: any,
   r?: any,
@@ -45,9 +49,10 @@ class FaDivFlexbox extends React.Component<any, any>{
       c: false,
       fa: false,
       fs: false,
+      button: false,
   }
   render(){
-    const {children, classes, className, c, fa, fs, vcenter, hcenter,...other} = this.props;
+    const {children, classes, className, c, fa, fs, button, vcenter, hcenter,...other} = this.props;
     return(
       <Div
         className={cx(
@@ -58,6 +63,7 @@ class FaDivFlexbox extends React.Component<any, any>{
            {[classes.fs]: fs },
            {[classes.vcenter]: vcenter },
            {[classes.hcenter]: hcenter },
+           {[classes.button]: button },
           className)}
          {...other}>
         {children}

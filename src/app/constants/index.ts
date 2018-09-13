@@ -26,12 +26,43 @@ export const darkColors = {
     }
 }
 
-export const AUTH_TOKEN = 'AUTH_TOKEN';
+export const AUTH_TOKEN = "AUTH_TOKEN";
+export const REFRESH_TOKEN = "REFRESH_TOKEN";
+export const USER_LIST = "USER_LIST";
+
 export const BG_URL = 'http://i.imgur.com/BQFAZTe.jpg?1';
 
 //lits of login users like gmail
-export const USER_LIST = "USER_LIST";
 export const HASH = {
   join: 'join',
   pwd: 'pwd',
 }
+
+export const saveToken = ({ access_token, refresh_token}) => {
+  localStorage.setItem(AUTH_TOKEN, access_token);
+  localStorage.setItem(REFRESH_TOKEN, refresh_token);
+}
+export const getToken = () => {
+  const access_token = localStorage.getItem(AUTH_TOKEN);
+  const refresh_token = localStorage.getItem(REFRESH_TOKEN);
+  return {access_token, refresh_token};
+}
+
+export const stringToColour = (str) =>  {
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  var colour = '#';
+  for (var i = 0; i < 3; i++) {
+    var value = (hash >> (i * 8)) & 0xFF;
+    colour += ('00' + value.toString(16)).substr(-2);
+  }
+  return colour;
+}
+
+export const pair_decimals = {
+  "BTC" : {
+    "ETH" : 2
+  }
+};
