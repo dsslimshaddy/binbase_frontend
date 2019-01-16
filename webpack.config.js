@@ -1,18 +1,34 @@
-var webpack = require('webpack');
-var path = require('path');
+const path = require('path');
 
 // variables
-var isProduction = process.argv.indexOf('-p') >= 0;
-var sourcePath = path.join(__dirname, './src');
-var outPath = path.join(__dirname, './dist');
+const isProduction = process.argv.indexOf('-p') >= 0;
+const sourcePath = path.join(__dirname, './src');
+const outPath = path.join(__dirname, './dist');
 
 // plugins
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BrotliPlugin = require('brotli-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+
+let plugins = [];
+if (isProduction){
+  plugins = [
+    new BundleAnalyzerPlugin({}),
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8,
+    }),
+  ]
+}
 
 module.exports = {
   context: sourcePath,
+  mode: isProduction ? "production" : "development",  
   entry: {
     main: './main.tsx'
   },
@@ -59,16 +75,9 @@ module.exports = {
             {
               loader: 'postcss-loader',
               options: {
-                ident: 'postcss',
-                plugins: [
-                  require('postcss-import')({ addDependencyTo: webpack }),
-                  require('postcss-url')(),
-                  require('postcss-cssnext')(),
-                  require('postcss-reporter')(),
-                  require('postcss-browser-reporter')({
-                    disabled: isProduction
-                  })
-                ]
+                config: {
+                  path: __dirname + '/postcss.config.js'
+                },
               }
             }
           ]
@@ -105,7 +114,9 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'assets/index.html'
-    })
+    }),
+    new HardSourceWebpackPlugin(),
+    ...plugins,    
   ],
   devServer: {
     contentBase: sourcePath,
@@ -116,7 +127,7 @@ module.exports = {
     },
     stats: 'minimal'
   },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: isProduction ? false : 'cheap-module-eval-source-map',
   node: {
     // workaround for webpack-dev-server issue
     // https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
